@@ -139,6 +139,29 @@ char	**fill_map(int lines)
 	close (fd);
 	return (map);
 }
+int	check_path(char *path)
+{
+	int		i;
+	int		j;
+	char	*target;
+
+	target = ".ber";
+	if (!path)
+		return (0);
+	i = 0;
+	while (path[i])
+		i++;
+	if (i < 4)
+		return (0);
+	j = 0;
+	while (target[j])
+	{
+		if (path[i - 4 + j] != target[j])
+			return (0);
+		j++;
+	}
+	return (1);
+}
 int	main(void)
 {
 	char *str;
@@ -146,8 +169,12 @@ int	main(void)
 	char **temp;
 	int line = 0;
 	int fd;
+	char *path;
 
-	fd = open("text.txt", O_RDONLY);
+	path = "text.ber";
+	if (!check_path(path))
+		printf("error");
+	fd = open(path, O_RDONLY);
 	while ((str = get_next_line(fd)) != NULL)
 	{
 		line++;
