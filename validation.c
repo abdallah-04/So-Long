@@ -119,7 +119,7 @@ int	is_valid(char **map)
 	}
 	return (1);
 }
-char	**fill_map(int lines)
+char	**fill_map(char *path,int lines)
 {
 	char	**map;
 	char	*str;
@@ -130,7 +130,7 @@ char	**fill_map(int lines)
 	map = malloc((lines + 1) * sizeof(char *));
 	if (!map)
 		return NULL;
-	fd = open("text.txt", O_RDONLY);
+	fd = open(path, O_RDONLY);
 	while ((str = get_next_line(fd)) != NULL)
 	{
 		map[i++] = str;
@@ -162,33 +162,52 @@ int	check_path(char *path)
 	}
 	return (1);
 }
-int	main(void)
+int main(void)
 {
 	char *str;
 	char **map;
 	char **temp;
-	int line = 0;
+	int line;
 	int fd;
-	char *path;
+	char path[256];
 
-	path = "text.ber";
-	if (!check_path(path))
-		printf("error");
-	fd = open(path, O_RDONLY);
-	while ((str = get_next_line(fd)) != NULL)
+	for (int i = 24; i > 0; i--)
 	{
-		line++;
-		free(str);
+		sprintf(path, "maps/%d.ber", i);
+
+		if (!check_path(path))
+		{
+			printf("error txt -> %d\n", i);
+			continue;
+		}
+		fd = open(path, O_RDONLY);
+		if (fd == -1)
+		{
+			perror("open");
+			continue;
+		}
+		line = 0;
+		while ((str = get_next_line(fd)) != NULL)
+		{
+			line++;
+			free(str);
+		}
+		close(fd);
+		map = fill_map(path, line);
+		temp = fill_map(path, line);
+		if (!is_valid(temp))
+		{
+			printf("error -> %d\n", i);
+			continue;
+		}
+		for (int j = 0; map[j]; j++)
+		{
+			printf("%s", map[j]);
+			free(map[j]);
+			free(temp[j]);
+		}
+		free(map);
+		free(temp);
 	}
-	close(fd);
-	map = fill_map(line);
-	temp = fill_map(line);
-	printf("%d\n",is_valid(temp));
-	for (int i = 0; map[i]; i++)
-	{
-		printf("%s", map[i]);
-		free(map[i]);
-	}
-	free(map);
 	return 0;
 }
