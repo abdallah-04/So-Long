@@ -1,4 +1,5 @@
 #include "so_long.h"
+
 int	is_in(char c)
 {
 	int	i;
@@ -35,7 +36,7 @@ int	is_CEP(char **map)
 }
 int	is_one_CEP(char **map)
 {
-	static int arr[3] = {0, 0, 0};
+	int arr[3] = {0, 0, 0};
 	int	i;
 	int	j;
 
@@ -81,7 +82,6 @@ void	find_player(char **map, int *p_x, int *p_y)
 		i++;
 	}
 }
-
 void	flood_fill(char **map, int x, int y)
 {
 	if (x < 0 || y < 0 || !map[x] || !map[x][y])
@@ -94,7 +94,63 @@ void	flood_fill(char **map, int x, int y)
 	flood_fill(map, x, y + 1);
 	flood_fill(map, x, y - 1);
 }
-int	is_valid(char **map)
+int	check_topAbutton(char **map, int line)
+{
+	int i;
+
+	i = 0;
+	while (map[0][i])
+	{
+		if (map[0][i] != '1')
+			return (0);
+		i++;
+	}
+	i = 0;
+	while (map[line - 1][i])
+	{
+		if (map[line - 1][i] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_leftAright(char **map, int line)
+{
+	int i;
+	int len;
+
+	i = 0;
+	len = ft_strlen(map[0]) - 1;
+	while (i < line)
+	{
+		if (map[i][0] != '1' || map[i][len] != '1')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+int	check_wh(char **map)
+{
+	int i;
+	int len;
+	int temp;
+
+	if (!map || !map[0])
+		return (0);
+	len = ft_strlen(map[0]);
+	i = 1;
+	while (map[i])
+	{
+		temp = ft_strlen(map[i]);
+		if (temp != len)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+int	is_valid(char **map,int line)
 {
 	int	i;
 	int	j;
@@ -102,10 +158,16 @@ int	is_valid(char **map)
 	int	p_y;
 
 	i = 0;
-	if (!is_one_CEP (map))
+	if (!is_one_CEP (map) || !check_topAbutton(map, line) ||
+	!check_leftAright (map, line) || !check_wh(map))
 		return (0);
 	find_player(map, &p_x, &p_y);
 	flood_fill(map, p_x, p_y);
+	for (int x = 0; map[x]; x++)
+	{
+		printf("%s", map[x]);
+	}
+	printf("\n");
 	while (map[i])
 	{
 		j = 0;
@@ -195,17 +257,25 @@ int main(void)
 		close(fd);
 		map = fill_map(path, line);
 		temp = fill_map(path, line);
-		if (!is_valid(temp))
+		for (int v = 0; map[v]; v++)
 		{
-			printf("error -> %d\n", i);
+			printf("%s", map[v]);
+		}
+		printf("\n");
+		if (!is_valid(temp, line))
+		{
+			printf("\nerror -> %d\n", i);
+			printf("--------------------------------\n");
 			continue;
 		}
-		for (int j = 0; map[j]; j++)
-		{
-			printf("%s", map[j]);
-			free(map[j]);
-			free(temp[j]);
-		}
+		printf("\nnot error -> %d\n", i);
+		printf("--------------------------------\n");
+		// for (int j = 0; map[j]; j++)
+		// {
+		// 	printf("%s", map[j]);
+		// 	free(map[j]);
+		// 	free(temp[j]);
+		// }
 		free(map);
 		free(temp);
 	}
