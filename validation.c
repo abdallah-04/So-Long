@@ -84,7 +84,12 @@ void	find_player(char **map, int *p_x, int *p_y)
 }
 void	flood_fill(char **map, int x, int y)
 {
-	if (x < 0 || y < 0 || !map[x] || !map[x][y])
+	int	len;
+
+	if (x < 0 || !map[x])
+		return ;
+	len = ft_strlen(map[x]);
+	if (y < 0 || y >= len)
 		return ;
 	if (map[x][y] == '1' || map[x][y] == '$' || map[x][y] == '\n')
 		return ;
@@ -96,17 +101,24 @@ void	flood_fill(char **map, int x, int y)
 }
 int	check_topAbutton(char **map, int line)
 {
-	int i;
+	int	i;
+	int	len;
 
 	i = 0;
-	while (map[0][i])
+	len = ft_strlen(map[0]);
+	if (map[0][len - 1] == '\n')
+		len--;
+	while (i < len)
 	{
 		if (map[0][i] != '1')
 			return (0);
 		i++;
 	}
 	i = 0;
-	while (map[line - 1][i])
+	len = ft_strlen(map[line - 1]);
+	if (map[line - 1][len - 1] == '\n')
+		len--;
+	while (i < len)
 	{
 		if (map[line - 1][i] != '1')
 			return (0);
@@ -117,14 +129,16 @@ int	check_topAbutton(char **map, int line)
 
 int	check_leftAright(char **map, int line)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
-	len = ft_strlen(map[0]) - 1;
 	while (i < line)
 	{
-		if (map[i][0] != '1' || map[i][len] != '1')
+		len = ft_strlen(map[i]);
+		if (map[i][len - 1] == '\n')
+			len--;
+		if (map[i][0] != '1' || map[i][len - 1] != '1')
 			return (0);
 		i++;
 	}
@@ -133,17 +147,21 @@ int	check_leftAright(char **map, int line)
 
 int	check_wh(char **map)
 {
-	int i;
-	int len;
-	int temp;
+	int	i;
+	int	len;
+	int	temp;
 
 	if (!map || !map[0])
 		return (0);
 	len = ft_strlen(map[0]);
+	if (map[0][len - 1] == '\n')
+		len--;
 	i = 1;
 	while (map[i])
 	{
 		temp = ft_strlen(map[i]);
+		if (map[i][temp - 1] == '\n')
+			temp--;
 		if (temp != len)
 			return (0);
 		i++;
@@ -158,8 +176,8 @@ int	is_valid(char **map,int line)
 	int	p_y;
 
 	i = 0;
-	if (!is_one_CEP (map) || !check_topAbutton(map, line) ||
-	!check_leftAright (map, line) || !check_wh(map))
+	if (!map || !is_one_CEP(map) || !check_topAbutton(map, line)
+		|| !check_leftAright(map, line) || !check_wh(map))
 		return (0);
 	find_player(map, &p_x, &p_y);
 	flood_fill(map, p_x, p_y);
@@ -181,24 +199,24 @@ int	is_valid(char **map,int line)
 	}
 	return (1);
 }
-char	**fill_map(char *path,int lines)
+char	**fill_map(char *path, int lines)
 {
 	char	**map;
 	char	*str;
-	int	i;
-	int	fd;
+	int		i;
+	int		fd;
 
 	i = 0;
 	map = malloc((lines + 1) * sizeof(char *));
 	if (!map)
-		return NULL;
+		return (NULL);
 	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		return (NULL);
 	while ((str = get_next_line(fd)) != NULL)
-	{
 		map[i++] = str;
-	}
 	map[i] = NULL;
-	close (fd);
+	close(fd);
 	return (map);
 }
 int	check_path(char *path)
