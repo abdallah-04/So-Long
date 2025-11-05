@@ -6,11 +6,15 @@
 #    By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 17:54:59 by amufleh           #+#    #+#              #
-#    Updated: 2025/11/05 10:04:58 by amufleh          ###   ########.fr        #
+#    Updated: 2025/11/05 12:59:49 by amufleh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC = validation.c
+SRC = main.c \
+	validation_path.c \
+	check_boundaries.c \
+	fill_the_map.c \
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
