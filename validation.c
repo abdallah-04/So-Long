@@ -242,30 +242,77 @@ int	check_path(char *path)
 	}
 	return (1);
 }
-int main(void)
+// int main(void)
+// {
+// 	char *str;
+// 	char **map;
+// 	char **temp;
+// 	int line;
+// 	int fd;
+// 	char path[256];
+
+// 	for (int i = 24; i > 0; i--)
+// 	{
+// 		sprintf(path, "maps/%d.ber", i);
+
+// 		if (!check_path(path))
+// 		{
+// 			printf("error txt -> %d\n", i);
+// 			continue;
+// 		}
+// 		fd = open(path, O_RDONLY);
+// 		if (fd == -1)
+// 		{
+// 			perror("open");
+// 			continue;
+// 		}
+// 		line = 0;
+// 		while ((str = get_next_line(fd)) != NULL)
+// 		{
+// 			line++;
+// 			free(str);
+// 		}
+// 		close(fd);
+// 		map = fill_map(path, line);
+// 		temp = fill_map(path, line);
+// 		for (int v = 0; map[v]; v++)
+// 		{
+// 			printf("%s", map[v]);
+// 		}
+// 		printf("\n");
+// 		if (!is_valid(temp, line))
+// 		{
+// 			printf("\nerror -> %d\n", i);
+// 			printf("--------------------------------\n");
+// 			continue;
+// 		}
+// 		printf("\nnot error -> %d\n", i);
+// 		printf("--------------------------------\n");
+// 		// for (int j = 0; map[j]; j++)
+// 		// {
+// 		// 	printf("%s", map[j]);
+// 		// 	free(map[j]);
+// 		// 	free(temp[j]);
+// 		// }
+// 		free(map);
+// 		free(temp);
+// 	}
+// 	return 0;
+// }
+int main()
 {
 	char *str;
 	char **map;
 	char **temp;
 	int line;
 	int fd;
-	char path[256];
-
-	for (int i = 24; i > 0; i--)
+	char *path;
+	path = "test.ber";
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
 	{
-		sprintf(path, "maps/%d.ber", i);
-
-		if (!check_path(path))
-		{
-			printf("error txt -> %d\n", i);
-			continue;
-		}
-		fd = open(path, O_RDONLY);
-		if (fd == -1)
-		{
-			perror("open");
-			continue;
-		}
+		perror("open");
+	}
 		line = 0;
 		while ((str = get_next_line(fd)) != NULL)
 		{
@@ -282,20 +329,21 @@ int main(void)
 		printf("\n");
 		if (!is_valid(temp, line))
 		{
-			printf("\nerror -> %d\n", i);
+			printf("\nerror ->\n");
 			printf("--------------------------------\n");
-			continue;
 		}
-		printf("\nnot error -> %d\n", i);
-		printf("--------------------------------\n");
-		// for (int j = 0; map[j]; j++)
-		// {
-		// 	printf("%s", map[j]);
-		// 	free(map[j]);
-		// 	free(temp[j]);
-		// }
+		else
+		{
+			printf("\nnot error ->\n");
+			printf("--------------------------------\n");
+		}
+		for (int j = 0; map[j]; j++)
+		{
+			printf("%s", map[j]);
+			free(map[j]);
+			free(temp[j]);
+		}
 		free(map);
 		free(temp);
-	}
 	return 0;
 }
