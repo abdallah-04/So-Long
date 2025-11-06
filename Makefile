@@ -20,7 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 NAME = so_long.a
 GNXL = get_next_line/getnextline.a
-MINILBX = minilibx-linux/libmlx.a
+MINILBX = minilibx-linux/libmlx_Linux.a
 
 all: $(NAME)
 

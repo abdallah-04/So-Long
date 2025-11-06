@@ -1,5 +1,4 @@
 #include "so_long.h"
-#include "mlx.h"
 #include <stdlib.h>
 #include <X11/keysym.h>
 
@@ -14,6 +13,13 @@ typedef struct s_player
     int y_axis;
 } t_player;
 
+typedef struct s_textures
+{
+    void *wall;
+    void *collect;
+    void *exit;
+    t_player *player;
+} t_textures;
 // int handle_key(int keycode, t_data *data)
 // {
 //     int move = 5;
@@ -32,22 +38,25 @@ typedef struct s_player
 
 //     return 0;
 // }
-
 int main(void)
 {
     void *mlx;
     void *mlx_win;
     void *img;
-    char	*path = "/home/amufleh/Documents/core/So-Long/test_image.png";
-	int		img_width = 1920;
-	int		img_height = 1200;
-    mlx = mlx_init();
-    mlx_win = mlx_new_window (mlx, 1920, 1200, "test");
-    img = mlx_xpm_file_to_image(mlx, path, &img_width, &img_height);
-    mlx_put_image_to_window(mlx, mlx_win, img, 100, 333);
-    mlx_loop(mlx);
+    int img_width;
+    int img_height;
 
-    return 0;
+    mlx = mlx_init();
+    mlx_win = mlx_new_window(mlx, 1920, 1080, "so_long");
+    img = mlx_xpm_file_to_image(mlx, "wall.xpm", &img_width, &img_height);
+    if (!img)
+    {
+        write(2, "Failed to load image\n", 21);
+        return (1);
+    }
+    mlx_put_image_to_window(mlx, mlx_win, img, 0, 0);
+
+    mlx_loop(mlx);
 }
 
 
