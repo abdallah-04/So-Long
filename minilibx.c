@@ -41,40 +41,64 @@ void fill_space(void *mlx, void* mlx_win, t_textures *ma, int size, char *map[])
 {
     int i;
     int j;
-    int x = 8;
 
     i = 0;
-    while (x--)
+    while (map[i])
     {
         j = 0;
         while (map[i][j] && map[i][j] != '\n')
         {
-
             if ((i + j) % 2 == 0)
-                mlx_put_image_to_window(mlx, mlx_win, ma->space1, j * size, i * size);
+                mlx_put_image_to_window(mlx, mlx_win, ma->space1, i * size, j * size);
             else
-                mlx_put_image_to_window(mlx, mlx_win, ma->space2, j * size, i * size);
+                mlx_put_image_to_window(mlx, mlx_win, ma->space2, i * size, j * size);
             j++;
         }
         i++;
     }
 }
+void fill_collectible_player(void *mlx, void* mlx_win, t_textures *ma, int size, char *map[])
+{
+    int i;
+    int j;
+
+    i = 0;
+    while (map[i])
+    {
+        j = 0;
+        while (map[i][j] && map[i][j] != '\n')
+        {
+            if (map[i][j] == 'P')
+                mlx_put_image_to_window(mlx, mlx_win, ma->player, i * size, j * size);
+            if (map[i][j] == 'C')
+                mlx_put_image_to_window(mlx, mlx_win, ma->collectible, i * size, j * size);
+            if (map[i][j] == '1')
+                mlx_put_image_to_window(mlx, mlx_win, ma->wall, i * size, j * size); 
+            if (map[i][j] == 'E')
+                mlx_put_image_to_window(mlx, mlx_win, ma->exit, i * size, j * size);
+            j++;
+        }
+        i++;
+    }
+    
+}
 
 int main(void)
 {
     char *map[] = {
-        "111111111111\n\0",
-        "1P0000C000E1\n\0",
-        "101111011111\n\0",
-        "100100000001\n\0",
-        "111101111101\n\0",
-        "1C0001000001\n\0",
-        "101111101C01\n\0",
-        "111111111111\0"
+        "1111111111111\n",
+        "1P0000C000E01\n",
+        "1011110111101\n",
+        "1001000000001\n",
+        "1111011111001\n",
+        "1C00010000001\n",
+        "101111101C001\n",
+        "1111111111111\0",
+        NULL
     };
     
     int rows = 8;    
-    int cols = 12;   
+    int cols = 13;   
     void *mlx;
     void *mlx_win;
     t_textures ma;
@@ -88,12 +112,12 @@ int main(void)
 
     mlx_win = mlx_new_window(mlx, rows * size, cols * size, "so_long");
 
-    ma.wall = mlx_xpm_file_to_image(mlx, "textures/wall.xpm", &width, &height);
+    ma.wall = mlx_xpm_file_to_image(mlx, "textures/wall3.xpm", &width, &height);
     ma.space1 = mlx_xpm_file_to_image(mlx, "textures/space1.xpm", &width, &height);
     ma.space2 = mlx_xpm_file_to_image(mlx, "textures/space2.xpm", &width, &height);
-    ma.collectible = mlx_xpm_file_to_image(mlx, "textures/collectible.xpm", &width, &height);
-    ma.exit = mlx_xpm_file_to_image(mlx, "textures/exit.xpm", &width, &height);
-    ma.player = mlx_xpm_file_to_image(mlx, "textures/player.xpm", &width, &height);
+    ma.collectible = mlx_xpm_file_to_image(mlx, "textures/collectible2_b.xpm", &width, &height);
+    ma.exit = mlx_xpm_file_to_image(mlx, "textures/exit2.xpm", &width, &height);
+    ma.player = mlx_xpm_file_to_image(mlx, "textures/player2.xpm", &width, &height);
 
     if (!ma.wall || !ma.space1 || !ma.space2 || !ma.collectible || !ma.exit) 
     {
@@ -102,7 +126,8 @@ int main(void)
     }
 
     fill_space(mlx, mlx_win, &ma, size, map);
-    mlx_put_image_to_window(mlx, mlx_win, ma.collectible, 4*size, 4 * size);
+    fill_collectible_player(mlx, mlx_win, &ma, size, map);
+    //mlx_put_image_to_window(mlx, mlx_win, ma.collectible, 4*size, 4 * size);
 
 
     mlx_loop(mlx);
