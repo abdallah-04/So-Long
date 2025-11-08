@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/08 15:10:15 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/08 17:11:33 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 #include <stdlib.h>
 #include <X11/keysym.h>
 
+
+#define XK_W1 119
+#define XK_A1 97
+#define XK_S1 115
+#define XK_D1 100
+#define XK_Escape1 65307
 
 typedef struct s_player
 {
@@ -29,7 +35,6 @@ typedef struct s_textures
     void *space2;
     void *collectible;
     void *exit;
-    t_player *player;
 } t_textures;
 
 typedef struct s_game
@@ -37,26 +42,27 @@ typedef struct s_game
     void *mlx;
     void *mlx_win;
     t_textures *textures;
+    t_player *player;
 }   t_game;
 
-int handle_key(int keycode, t_textures *map)
+int handle_key(int keycode, t_game *game)
 {
     int move = 52;
 
-    if (keycode == XK_Escape)
+    if (keycode == XK_Escape1)
         exit(0);
-    if (keycode == XK_W)
-        map->player->y_axis -= move;
-    if (keycode == XK_S)
-        map->player->y_axis += move;
-    if (keycode == XK_A)
-        map->player->x_axis -= move;
-    if (keycode == XK_D)
-        map->player->x_axis += move;
+    if (keycode == XK_W1)
+        game->player->y_axis -= move;
+    if (keycode == XK_S1)
+        game->player->y_axis += move;
+    if (keycode == XK_A1)
+        game->player->x_axis -= move;
+    if (keycode == XK_D1)
+        game->player->x_axis += move;
 
     return 0;
 }
-void fill_space(void *mlx, void* mlx_win, t_textures *ma, int size, char *map[])
+void fill_space(void *mlx, void* mlx_win, t_game *game, int size, char *map[])
 {
     int i;
     int j;
@@ -68,15 +74,15 @@ void fill_space(void *mlx, void* mlx_win, t_textures *ma, int size, char *map[])
         while (map[i][j] && map[i][j] != '\n')
         {
             if ((i + j) % 2 == 0)
-                mlx_put_image_to_window(mlx, mlx_win, ma->space1, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->textures->space1, i * size, j * size);
             else
-                mlx_put_image_to_window(mlx, mlx_win, ma->space2, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->textures->space2, i * size, j * size);
             j++;
         }
         i++;
     }
 }
-void fill_collectible_player(void *mlx, void* mlx_win, t_textures *ma, int size, char *map[])
+void fill_collectible_player(void *mlx, void* mlx_win, t_game *game, int size, char *map[])
 {
     int i;
     int j;
@@ -88,76 +94,101 @@ void fill_collectible_player(void *mlx, void* mlx_win, t_textures *ma, int size,
         while (map[i][j] && map[i][j] != '\n')
         {
             if (map[i][j] == 'P')
-                mlx_put_image_to_window(mlx, mlx_win, ma->player->image, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->player->image, i * size, j * size);
             if (map[i][j] == 'C')
-                mlx_put_image_to_window(mlx, mlx_win, ma->collectible, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->textures->collectible, i * size, j * size);
             if (map[i][j] == '1')
-                mlx_put_image_to_window(mlx, mlx_win, ma->wall, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->textures->wall, i * size, j * size);
             if (map[i][j] == 'E')
-                mlx_put_image_to_window(mlx, mlx_win, ma->exit, i * size, j * size);
+                mlx_put_image_to_window(mlx, mlx_win, game->textures->exit, i * size, j * size);
             j++;
         }
         i++;
     }
 
 }
+int fill_image(t_game *game)
+{
+    int width;
+    int height;
+
+    game->textures->wall = mlx_xpm_file_to_image(game->mlx, "textures/wall3.xpm", &width, &height);
+    game->textures->space1 = mlx_xpm_file_to_image(game->mlx, "textures/space1.xpm", &width, &height);
+    game->textures->space2 = mlx_xpm_file_to_image(game->mlx, "textures/space2.xpm", &width, &height);
+    game->textures->collectible = mlx_xpm_file_to_image(game->mlx, "textures/collectible2_b.xpm", &width, &height);
+    game->textures->exit = mlx_xpm_file_to_image(game->mlx, "textures/exit2.xpm", &width, &height);
+    game->player->image = mlx_xpm_file_to_image(game->mlx, "textures/player2.xpm", &width, &height);
+
+    if (!game->textures->wall || !game->textures->space1 || !game->textures->space2 ||
+        !game->textures->collectible || !game->textures->exit || !game->player->image)
+        return (0);
+    return (1);
+}
 
 
 int render_next_frame(t_game *game)
 {
     mlx_clear_window(game->mlx, game->mlx_win);
-    mlx_put_image_to_window(game->mlx,game->mlx_win,game->textures->player->image,game->textures->player->x_axis * 52,game->textures->player->y_axis * 52);
+    mlx_put_image_to_window(game->mlx,game->mlx_win,game->player->image,game->player->x_axis * 52,game->player->y_axis * 52);
 
     return (0);
 }
-int main(void)
+int count_line(char *path)
 {
-    char *map[] = {
-        "1111111111111\n",
-        "1P0000C000E01\n",
-        "1011110111101\n",
-        "1001000000001\n",
-        "1111011111001\n",
-        "1C00010000001\n",
-        "101111101C001\n",
-        "1111111111111\0",
-        NULL
-    };
+    int line;
+    int fd;
+    char *str;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+	{
+		perror("open");
+	}
+    line = 0;
+	while ((str = get_next_line(fd)) != NULL)
+	{
+		line++;
+		free(str);
+	}
+    close(fd);
+    return (line);
+}
+int main()
+{
+    char *path;
+    char **map;
+    char **temp;
     t_textures ma;
     t_player player;
     t_game game;
-    int rows = 8;
-    int cols = 13;
-    int size = 52;
-    int width;
-    int height;
+    int rows;
+    int cols;
+    int size;
 
+    size = 52;
+    path = "test.ber";
+    map = fill_map(path,count_line(path));
+    temp = fill_map(path, count_line(path));
+	if (!is_valid(temp, count_line(path)))
+        printf("\nerror ->\n");
+    rows = count_line (path);
+    cols = ft_strlen (map[0]);
     game.mlx = mlx_init();
     if (!game.mlx)
         return (0);
     game.mlx_win = mlx_new_window(game.mlx, rows * size, cols * size, "so_long");
-    ma.player = &player;
+    game.player = &player;
     game.textures = &ma;
+    fill_image(&game);
     find_player(map, &player.x_axis, &player.y_axis);
-    ma.wall = mlx_xpm_file_to_image(game.mlx, "textures/wall3.xpm", &width, &height);
-    ma.space1 = mlx_xpm_file_to_image(game.mlx, "textures/space1.xpm", &width, &height);
-    ma.space2 = mlx_xpm_file_to_image(game.mlx, "textures/space2.xpm", &width, &height);
-    ma.collectible = mlx_xpm_file_to_image(game.mlx, "textures/collectible2_b.xpm", &width, &height);
-    ma.exit = mlx_xpm_file_to_image(game.mlx, "textures/exit2.xpm", &width, &height);
-    ma.player->image = mlx_xpm_file_to_image(game.mlx, "textures/player2.xpm", &width, &height);
-
-    if (!ma.wall || !ma.space1 || !ma.space2 || !ma.collectible || !ma.exit || !ma.player->image)
-    {
-        write(2, "Failed to load image\n", 21);
-        return (0);
-    }
-    fill_space(game.mlx, game.mlx_win, &ma, size, map);
-    fill_collectible_player(game.mlx, game.mlx_win, &ma, size, map);
-    mlx_key_hook(game.mlx_win, handle_key, &ma);
+    fill_space(game.mlx, game.mlx_win, &game, size, map);
+    fill_collectible_player(game.mlx, game.mlx_win, &game, size, map);
+    mlx_key_hook(game.mlx_win, handle_key, &game);
     //mlx_loop_hook(game.mlx, render_next_frame, &game);
     printf("%d",player.y_axis);
+    for (int j = 0; map[j]; j++)
+		printf("%s", map[j]);
     mlx_loop(game.mlx);
-
 
     return (0);
 }
