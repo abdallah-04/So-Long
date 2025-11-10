@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/10 18:09:55 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/10 18:15:06 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,12 +206,12 @@ int main()
 
     size = 52;
     path = "test.ber";
-    map = fill_map(path,count_line(path));
+    game.map = fill_map(path,count_line(path));
     temp = fill_map(path, count_line(path));
 	if (!is_valid(temp, count_line(path)))
         printf("\nerror ->\n");
     rows = count_line (path);
-    cols = ft_strlen (map[0]) - 1;
+    cols = ft_strlen (game.map[0]) - 1;
     game.mlx = mlx_init();
     if (!game.mlx)
         return (0);
@@ -220,7 +220,7 @@ int main()
     game.textures = &ma;
     fill_image(&game);
     find_player(map, &player.x_axis, &player.y_axis);
-    fill_image_map(&game, size, map);
+    fill_image_map(&game, size, game.map);
     //mlx_key_hook(game.mlx_win, handle_key, &game);
     //mlx_loop_hook(game.mlx, render_next_frame, &game);
     printf("%d",player.y_axis);
