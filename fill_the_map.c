@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:40:56 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/08 15:08:51 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/10 15:47:03 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	**fill_map(char *path, int lines)
 	int		i;
 	int		fd;
 
+	if (!path)
+		return (0);
 	i = 0;
 	map = malloc((lines + 1) * sizeof(char *));
 	if (!map)
@@ -37,6 +39,7 @@ int	check_path(char *path)
 	int		i;
 	int		j;
 	char	*target;
+
 
 	target = ".ber";
 	if (!path)

@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:11:55 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/05 11:35:56 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/10 15:48:38 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_cep(char **map)
 	int	i;
 	int	j;
 
+	if (!map || !map[0])
+		return (0);
 	i = 0;
 	while (map[i])
 	{
@@ -40,6 +42,8 @@ int	is_one_cep(char **map)
 	int			i;
 	static int	arr[3] = {0, 0, 0};
 
+	if (!map || !map[0])
+		return (0);
 	i = 0;
 	while (map[i])
 	{
@@ -66,6 +70,8 @@ void	find_player(char **map, int *p_x, int *p_y)
 	int	i;
 	int	j;
 
+	if (!map || !map[0])
+		return ;
 	i = 0;
 	while (map[i])
 	{
@@ -88,6 +94,8 @@ void	flood_fill(char **map, int x, int y)
 {
 	int	len;
 
+	if (!map || !map[0])
+		return ;
 	if (x < 0 || !map[x])
 		return ;
 	len = ft_strlen(map[x]);
@@ -109,6 +117,8 @@ int	is_valid(char **map, int line)
 	int	p_x;
 	int	p_y;
 
+	if (!map || !map[0])
+		return (0);
 	i = 0;
 	if (!map || !is_one_cep(map) || !check_topbutton(map, line)
 		|| !check_leftright(map, line) || !check_len(map))

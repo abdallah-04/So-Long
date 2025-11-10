@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/10 12:28:57 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/10 18:09:55 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,84 @@ typedef struct s_game
 {
     void *mlx;
     void *mlx_win;
+    char **map;
     t_textures *textures;
     t_player *player;
 }   t_game;
 
+int is_there_c(char **map)
+{
+	int	i;
+	int j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (map[i][j] = 'C')
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+void swap_chars(char *c1, char *c2)
+{
+    char temp = *c1;
+    *c1 = *c2;
+    *c2 = temp;
+}
+int move_player(t_game *game, char m)
+{
+    int new_x;
+    int new_y;
+
+    new_x = game->player->x_axis;
+    new_y = game->player->y_axis;
+    if (m == 'w')
+        new_x-= 52;
+    else if (m == 's')
+        new_x += 52;
+    else if (m == 'a')
+        new_y -= 52;
+    else if (m == 'd')
+        new_y -= 52;
+    if (game->map[new_x][new_y] == '1')
+            return ;
+    if (game->map[new_x][new_y] == 'C')
+        game->map[new_x][new_y] = '0';
+    if (game->map[new_x][new_y] == 'E' && !(is_there_c(game->map)))
+            return (1);
+    swap_chars(&game->map[game->player->x_axis][game->player->y_axis], &game->map[new_x][new_y]);
+    game->player->x_axis = new_x;
+    game->player->y_axis = new_y;
+}
 int handle_key(int keycode, t_game *game)
 {
     int move = 52;
+    int flag;
 
-    if (keycode == XK_Escape1)
+    flag = 0;
+    if (keycode == XK_Escape)
         exit(0);
-    if (keycode == XK_W1)
-        game->player->y_axis -= move;
-    if (keycode == XK_S1)
-        game->player->y_axis += move;
-    if (keycode == XK_A1)
-        game->player->x_axis -= move;
-    if (keycode == XK_D1)
-        game->player->x_axis += move;
-
-    return 0;
+    else if (keycode == XK_W)
+        flag = move_player(game, 'w');
+    else if (keycode == XK_S)
+        flag = move_player(game, 's');
+    else if (keycode == XK_A)
+        flag = move_player(game, 'a');
+    else if (keycode == XK_D)
+        flag = move_player(game, 'd');
+    if (flag)
+        exit(0);
+    fill_image_map(game, 52, game->map);
+    return (0);
 }
-void fill_image_map(void *mlx, void* mlx_win, t_game *game, int size, char *map[])
+
+void fill_image_map(t_game *game, int size, char *map[])
 {
     int i;
     int j;
@@ -74,17 +130,17 @@ void fill_image_map(void *mlx, void* mlx_win, t_game *game, int size, char *map[
         while (map[i][j] && map[i][j] != '\n')
         {
             if (map[i][j] == '0' && (i + j) % 2 == 0)
-                mlx_put_image_to_window(mlx, mlx_win, game->textures->space1, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->textures->space1, j * size, i * size);
             if (map[i][j] == '0' && (i + j) % 2 != 0)
-                mlx_put_image_to_window(mlx, mlx_win, game->textures->space2, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->textures->space2, j * size, i * size);
             if (map[i][j] == 'P')
-                mlx_put_image_to_window(mlx, mlx_win, game->player->image, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->player->image, j * size, i * size);
             if (map[i][j] == 'C')
-                mlx_put_image_to_window(mlx, mlx_win, game->textures->collectible, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->textures->collectible, j * size, i * size);
             if (map[i][j] == '1')
-                mlx_put_image_to_window(mlx, mlx_win, game->textures->wall, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->textures->wall, j * size, i * size);
             if (map[i][j] == 'E')
-                mlx_put_image_to_window(mlx, mlx_win, game->textures->exit, j * size, i * size);
+                mlx_put_image_to_window(game->mlx, game->mlx_win, game->textures->exit, j * size, i * size);
             j++;
         }
         i++;
@@ -94,7 +150,8 @@ int fill_image(t_game *game)
 {
     int width;
     int height;
-
+    if (! game)
+        return (0);
     game->textures->wall = mlx_xpm_file_to_image(game->mlx, "textures/wall3.xpm", &width, &height);
     game->textures->space1 = mlx_xpm_file_to_image(game->mlx, "textures/space1.xpm", &width, &height);
     game->textures->space2 = mlx_xpm_file_to_image(game->mlx, "textures/space2.xpm", &width, &height);
@@ -120,12 +177,11 @@ int count_line(char *path)
     int line;
     int fd;
     char *str;
-
+    if (! path)
+        return (0);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-	{
 		perror("open");
-	}
     line = 0;
 	while ((str = get_next_line(fd)) != NULL)
 	{
@@ -164,8 +220,8 @@ int main()
     game.textures = &ma;
     fill_image(&game);
     find_player(map, &player.x_axis, &player.y_axis);
-    fill_image_map(game.mlx, game.mlx_win, &game, size, map);
-    mlx_key_hook(game.mlx_win, handle_key, &game);
+    fill_image_map(&game, size, map);
+    //mlx_key_hook(game.mlx_win, handle_key, &game);
     //mlx_loop_hook(game.mlx, render_next_frame, &game);
     printf("%d",player.y_axis);
     for (int j = 0; map[j]; j++)
