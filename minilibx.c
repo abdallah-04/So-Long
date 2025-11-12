@@ -6,45 +6,13 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/10 18:15:06 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/12 18:16:32 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include <stdlib.h>
 #include <X11/keysym.h>
-
-
-#define XK_W1 119
-#define XK_A1 97
-#define XK_S1 115
-#define XK_D1 100
-#define XK_Escape1 65307
-
-typedef struct s_player
-{
-    int x_axis;
-    int y_axis;
-    void *image;
-} t_player;
-
-typedef struct s_textures
-{
-    void *wall;
-    void *space1;
-    void *space2;
-    void *collectible;
-    void *exit;
-} t_textures;
-
-typedef struct s_game
-{
-    void *mlx;
-    void *mlx_win;
-    char **map;
-    t_textures *textures;
-    t_player *player;
-}   t_game;
 
 int is_there_c(char **map)
 {
@@ -57,13 +25,13 @@ int is_there_c(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] = 'C')
+			if (map[i][j] == 'C')
 				return (1);
 			j++;
 		}
 		i++;
 	}
-	return (1);
+	return (0);
 }
 void swap_chars(char *c1, char *c2)
 {
@@ -87,7 +55,7 @@ int move_player(t_game *game, char m)
     else if (m == 'd')
         new_y -= 52;
     if (game->map[new_x][new_y] == '1')
-            return ;
+            return (0);
     if (game->map[new_x][new_y] == 'C')
         game->map[new_x][new_y] = '0';
     if (game->map[new_x][new_y] == 'E' && !(is_there_c(game->map)))
@@ -95,29 +63,9 @@ int move_player(t_game *game, char m)
     swap_chars(&game->map[game->player->x_axis][game->player->y_axis], &game->map[new_x][new_y]);
     game->player->x_axis = new_x;
     game->player->y_axis = new_y;
-}
-int handle_key(int keycode, t_game *game)
-{
-    int move = 52;
-    int flag;
-
-    flag = 0;
-    if (keycode == XK_Escape)
-        exit(0);
-    else if (keycode == XK_W)
-        flag = move_player(game, 'w');
-    else if (keycode == XK_S)
-        flag = move_player(game, 's');
-    else if (keycode == XK_A)
-        flag = move_player(game, 'a');
-    else if (keycode == XK_D)
-        flag = move_player(game, 'd');
-    if (flag)
-        exit(0);
-    fill_image_map(game, 52, game->map);
+    printf("hhh\n");
     return (0);
 }
-
 void fill_image_map(t_game *game, int size, char *map[])
 {
     int i;
@@ -146,6 +94,29 @@ void fill_image_map(t_game *game, int size, char *map[])
         i++;
     }
 }
+int handle_key(int keycode, t_game *game)
+{
+    int move = 52;
+    int flag;
+
+    flag = 0;
+    if (keycode == XK_Escape)
+        exit(0);
+    else if (keycode == XK_W)
+        flag = move_player(game, 'w');
+    else if (keycode == XK_S)
+        flag = move_player(game, 's');
+    else if (keycode == XK_A)
+        flag = move_player(game, 'a');
+    else if (keycode == XK_D)
+        flag = move_player(game, 'd');
+    if (flag)
+        exit(0);
+    fill_image_map(game, 52, game->map);
+    return (0);
+}
+
+
 int fill_image(t_game *game)
 {
     int width;
@@ -168,7 +139,7 @@ int fill_image(t_game *game)
 int render_next_frame(t_game *game)
 {
     mlx_clear_window(game->mlx, game->mlx_win);
-    mlx_put_image_to_window(game->mlx,game->mlx_win,game->player->image,game->player->x_axis * 52,game->player->y_axis * 52);
+    fill_image_map(game, 52, game->map);
 
     return (0);
 }
@@ -195,7 +166,7 @@ int main()
 {
     //cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
     char *path;
-    char **map;
+   // char **map;
     char **temp;
     t_textures ma;
     t_player player;
@@ -219,13 +190,11 @@ int main()
     game.player = &player;
     game.textures = &ma;
     fill_image(&game);
-    find_player(map, &player.x_axis, &player.y_axis);
+    find_player(game.map, &player.x_axis, &player.y_axis);
     fill_image_map(&game, size, game.map);
-    //mlx_key_hook(game.mlx_win, handle_key, &game);
-    //mlx_loop_hook(game.mlx, render_next_frame, &game);
+    mlx_key_hook(game.mlx_win, handle_key, &game);
+    mlx_loop_hook(game.mlx, render_next_frame, &game);
     printf("%d",player.y_axis);
-    for (int j = 0; map[j]; j++)
-		printf("%s", map[j]);
     mlx_loop(game.mlx);
 
     return (0);

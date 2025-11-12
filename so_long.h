@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/05 12:02:51 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/12 17:40:14 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,37 @@
 # include "minilibx-linux/mlx_int.h"
 # include "minilibx-linux/mlx.h"
 # include <stdio.h>
+
+#define XK_W1 119
+#define XK_A1 97
+#define XK_S1 115
+#define XK_D1 100
+#define XK_Escape1 65307
+
+typedef struct s_player
+{
+    int x_axis;
+    int y_axis;
+    void *image;
+} t_player;
+
+typedef struct s_textures
+{
+    void *wall;
+    void *space1;
+    void *space2;
+    void *collectible;
+    void *exit;
+} t_textures;
+
+typedef struct s_game
+{
+    void *mlx;
+    void *mlx_win;
+    char **map;
+    t_textures *textures;
+    t_player *player;
+}   t_game;
 
 int	is_cep(char **map);
 int	is_one_cep(char **map);
