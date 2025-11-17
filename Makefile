@@ -6,7 +6,7 @@
 #    By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 17:54:59 by amufleh           #+#    #+#              #
-#    Updated: 2025/11/05 12:59:49 by amufleh          ###   ########.fr        #
+#    Updated: 2025/11/17 09:04:43 by amufleh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CFLAGS = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
 NAME = so_long.a
 GNXL = get_next_line/getnextline.a
-MINILBX = minilibx-linux/libmlx_Linux.a
+MINILBX = minilibx-linux/libmlx.a
 
 all: $(NAME)
 

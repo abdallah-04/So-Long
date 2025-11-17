@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/12 17:40:14 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/17 10:23:14 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include "minilibx-linux/mlx.h"
 # include <stdio.h>
 
-#define XK_W1 119
-#define XK_A1 97
-#define XK_S1 115
-#define XK_D1 100
-#define XK_Escape1 65307
+#define KEY_W 119
+#define KEY_A 97
+#define KEY_S 115
+#define KEY_D 100
+#define KEY_ESC 65307
 
 typedef struct s_player
 {
