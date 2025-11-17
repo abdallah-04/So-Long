@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/17 13:42:31 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/17 18:16:30 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 #include <stdlib.h>
 #include <X11/keysym.h>
 
-int is_there_c(char **map)
+int count_c(char **map)
 {
 	int	i;
 	int	j;
+	int count;
 
 	i = 0;
+	count = 0;
 	while (map[i])
 	{
 		j = 0;
 		while (map[i][j])
 		{
 			if (map[i][j] == 'C')
-				return (1);
+				count++;
 			j++;
 		}
 		i++;
 	}
-	return (0);
+	return (count);
 }
 
 void fill_image_map(t_game *game, int size)
@@ -72,28 +74,22 @@ void swap_chars(char *c1, char *c2)
 	*c2 = temp;
 }
 
-int move_player(t_game *game, char m)
+int move_player(t_game *game, int new_x, int new_y)
 {
-	int	new_x;
-	int	new_y;
+	char temp;
+	int	static count = 0;
 
-	new_x = game->player->x_axis;
-	new_y = game->player->y_axis;
-	if (m == 'w')
-		new_x-= 1;
-	else if (m == 's')
-		new_x += 1;
-	else if (m == 'a')
-		new_y -= 1;
-	else if (m == 'd')
-		new_y += 1;
+	temp = 'E';
 	if (game->map[new_x][new_y] == '1')
 		return (0);
 	if (game->map[new_x][new_y] == 'C')
-		game->map[new_x][new_y] = '0';
+		{
+			count++;
+			game->map[new_x][new_y] = '0';
+		}
 	if (game->map[new_x][new_y] == 'E')
 	{
-		if (!is_there_c(game->map))
+		if (count == game->c_num)
 			return (1);
 		return (0);
 	}
@@ -113,16 +109,16 @@ int handle_key(int keycode, t_game *game)
 	if (keycode == KEY_ESC)
 		exit(0);
 	else if (keycode == KEY_W)
-		flag = move_player(game, 'w');
+		flag = move_player(game, game->player->x_axis - 1, game->player->y_axis);
 	else if (keycode == KEY_S)
-		flag = move_player(game, 's');
+		flag = move_player(game, game->player->x_axis + 1, game->player->y_axis);
 	else if (keycode == KEY_A)
-		flag = move_player(game, 'a');
+		flag = move_player(game, game->player->x_axis, game->player->y_axis - 1);
 	else if (keycode == KEY_D)
-		flag = move_player(game, 'd');
+		flag = move_player(game, game->player->x_axis, game->player->y_axis + 1);
 	if (flag)
 		exit(0);
-	printf("%d\n",moves);
+ 		printf("%d\n",moves);
 	return (0);
 }
 
@@ -185,52 +181,58 @@ void free_map(char **map)
 	free(map);
 }
 
-int main()
+int main(int args, char *argv[])
 {
-    //cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
-    char *path;
-    char **temp;
-    t_textures textures;
-    t_player player;
-    t_game game;
-    int rows;
-    int cols;
-    int lines;
+	//cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
+	int	rows;
+	int	cols;
+	int	lines;
+	char	*path;
+	char	**temp;
+	t_textures	textures;
+	t_player	player;
+	t_game	game;
 
-
-    path = "test.ber";
-    if (!check_path(path))
-    {
-        printf("Error\nThe path is !valid\n");
-        return (0);
-    }
-    lines = count_line(path);
-    game.map = fill_map(path,lines);
-    temp = fill_map(path, lines);
+	if (args != 2)
+	{
+		printf("Error\n!valid input");
+		return (0);
+	}
+	path = argv[1];
+	if (!check_path(path))
+	{
+		printf("Error\nThe path is !valid\n");
+		return (0);
+	}
+	lines = count_line(path);
+	game.map = fill_map(path,lines);
+	game.c_num = count_c(game.map);
+	temp = fill_map(path, lines);
 	if (!is_valid(temp, lines))
-    {
-        free_map(game.map);
-        free_map(temp);
-        printf("Error\nThe map is !valid\n");
-        return (0);
-    }
-    rows = count_line (path);
-    cols = ft_strlen (game.map[0]) - 1;
-    game.mlx = mlx_init();
-    if (!game.mlx)
-        return (0);
-    game.mlx_win = mlx_new_window(game.mlx, cols * 52, rows * 52, "so_long");
-    if (!game.mlx_win)
-        return (0);
-    game.player = &player;
-    game.textures = &textures;
-    fill_image(&game);
-    find_player(game.map, &player.x_axis, &player.y_axis);
-    fill_image_map(&game, 52);
-    mlx_key_hook(game.mlx_win, handle_key, &game);
-    //mlx_mouse_hook(game.mlx_win, mouse_hook, &vars);
-    mlx_loop_hook(game.mlx, render_next_frame, &game);
-    mlx_loop(game.mlx);
+	{
+		free_map(game.map);
+		free_map(temp);
+		printf("Error\nThe map is !valid\n");
+		return (0);
+	}
+	rows = count_line (path);
+	cols = ft_strlen (game.map[0]) - 1;
+	game.mlx = mlx_init();
+	if (!game.mlx)
+		return (0);
+	game.mlx_win = mlx_new_window(game.mlx, cols * 52, rows * 52, "so_long");
+	if (!game.mlx_win)
+		return (0);
+	game.player = &player;
+	game.textures = &textures;
+	fill_image(&game);
+	find_player(game.map, &player.x_axis, &player.y_axis);
+	fill_image_map(&game, 52);
+	//mlx_key_hook(game.mlx_win, handle_key, &game);
+	mlx_hook(game.mlx_win, 2, 1L<<0, handle_key, &game);
+	//mlx_hook(game.mlx_win, 1, 1L<<0, handle_key, &game);
+	mlx_loop_hook(game.mlx, render_next_frame, &game);
+	mlx_loop(game.mlx);
 
-    return (0);
+	return (0);
 }

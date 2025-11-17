@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/17 10:23:14 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/17 18:12:28 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct s_game
     void *mlx;
     void *mlx_win;
     char **map;
+    int c_num;
     t_textures *textures;
     t_player *player;
 }   t_game;
