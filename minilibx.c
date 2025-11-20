@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/17 18:16:30 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/11/20 18:34:13 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,22 @@ void swap_chars(char *c1, char *c2)
 int move_player(t_game *game, int new_x, int new_y)
 {
 	char temp;
+	int flag;
 	int	static count = 0;
 
 	temp = 'E';
+	flag = 0;
 	if (game->map[new_x][new_y] == '1')
 		return (0);
 	if (game->map[new_x][new_y] == 'C')
-		{
-			count++;
-			game->map[new_x][new_y] = '0';
-		}
+	{
+		count++;
+		game->map[new_x][new_y] = '0';
+	}
 	if (game->map[new_x][new_y] == 'E')
 	{
 		if (count == game->c_num)
 			return (1);
-		return (0);
 	}
 	swap_chars(&game->map[game->player->x_axis][game->player->y_axis], &game->map[new_x][new_y]);
 	game->player->x_axis = new_x;
@@ -157,7 +158,9 @@ int count_line(char *path)
 		return (0);
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
-		perror("open");
+		{
+			return (0);
+		}
 	line = 0;
 	while ((str = get_next_line(fd)) != NULL)
 	{
@@ -198,13 +201,20 @@ int main(int args, char *argv[])
 		printf("Error\n!valid input");
 		return (0);
 	}
-	path = argv[1];
+
+	args = 0;
+	path = "test.ber";
 	if (!check_path(path))
 	{
 		printf("Error\nThe path is !valid\n");
 		return (0);
 	}
 	lines = count_line(path);
+	if (!lines)
+	{
+		printf("Error");
+		return (0);
+	}
 	game.map = fill_map(path,lines);
 	game.c_num = count_c(game.map);
 	temp = fill_map(path, lines);
