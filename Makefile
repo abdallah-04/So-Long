@@ -6,14 +6,15 @@
 #    By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 17:54:59 by amufleh           #+#    #+#              #
-#    Updated: 2025/11/17 09:04:43 by amufleh          ###   ########.fr        #
+#    Updated: 2025/12/02 18:49:56 by amufleh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC = main.c \
-	validation_path.c \
+	validation_map.c \
 	check_boundaries.c \
 	fill_the_map.c \
+	put_image.c \
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -27,7 +28,6 @@ all: $(NAME)
 $(NAME): $(OBJ) $(GNXL) $(MINILBX)
 	cp $(GNXL) $(NAME) $(MINILBX)
 	ar rcs $(NAME) $(OBJ)
-
 $(GNXL):
 	make -C get_next_line
 

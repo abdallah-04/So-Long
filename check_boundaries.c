@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:12:07 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/17 12:40:51 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/02 15:38:24 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	check_topbutton(char **map, int line)
 	int	i;
 	int	len;
 
-	if (!map || !map[0])
-		return (0);
 	i = 0;
 	len = ft_strlen(map[0]);
 	if (map[0][len - 1] == '\n')
@@ -48,8 +46,6 @@ int	check_leftright(char **map, int line)
 	int	len;
 
 	i = 0;
-	if (!map || !map[0])
-		return (0);
 	while (i < line)
 	{
 		len = ft_strlen(map[i]);
@@ -68,8 +64,6 @@ int	check_len(char **map)
 	int	len;
 	int	temp;
 
-	if (!map || !map[0])
-		return (0);
 	len = ft_strlen(map[0]);
 	if (map[0][len - 1] == '\n')
 		len--;
@@ -85,3 +79,4 @@ int	check_len(char **map)
 	}
 	return (1);
 }
+

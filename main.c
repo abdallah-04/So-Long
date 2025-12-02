@@ -6,57 +6,137 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/11/08 16:41:11 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/02 18:47:23 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <stdlib.h>
+#include <X11/keysym.h>
 
-// int main()
-// {
-// 	char *str;
-// 	char **map;
-// 	char **temp;
-// 	int line;
-// 	int fd;
-// 	char *path;
-// 	path = "test.ber";
-// 	fd = open(path, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		perror("open");
-// 	}
-// 		line = 0;
-// 		while ((str = get_next_line(fd)) != NULL)
-// 		{
-// 			line++;
-// 			free(str);
-// 		}
-// 		close(fd);
-// 		map = fill_map(path, line);
-// 		temp = fill_map(path, line);
-// 		for (int v = 0; map[v]; v++)
-// 		{
-// 			printf("%s", map[v]);
-// 		}
-// 		printf("\n");
-// 		if (!is_valid(temp, line))
-// 		{
-// 			printf("\nerror ->\n");
-// 			printf("--------------------------------\n");
-// 		}
-// 		else
-// 		{
-// 			printf("\nnot error ->\n");
-// 			printf("--------------------------------\n");
-// 		}
-// 		for (int j = 0; map[j]; j++)
-// 		{
-// 			printf("%s", map[j]);
-// 			free(map[j]);
-// 			free(temp[j]);
-// 		}
-// 		free(map);
-// 		free(temp);
-// 	return 0;
-// }
+static int	render_next_frame(t_game *game)
+{
+	if (!game)
+		return (0);
+	mlx_clear_window(game->mlx, game->mlx_win);
+	fill_image_map(game, 52);
+	return (0);
+}
+
+static int	handle_key(int keycode, t_game *game)
+{
+	int	flag;
+	int static	moves = 0;
+
+	if (!game)
+		return (0);
+	flag = 0;
+	moves++;
+	if (keycode == KEY_ESC)// you did not free the map and the window and the images 
+		exit(0);
+	else if (keycode == KEY_W)
+		flag = move_player(game, game->player->x_axis - 1,
+				game->player->y_axis);
+	else if (keycode == KEY_S)
+		flag = move_player(game, game->player->x_axis + 1,
+				game->player->y_axis);
+	else if (keycode == KEY_A)
+		flag = move_player(game, game->player->x_axis,
+				game->player->y_axis - 1);
+	else if (keycode == KEY_D)
+		flag = move_player(game, game->player->x_axis,
+				game->player->y_axis + 1);
+	if (flag) // you did not free the map and the window and the images
+		exit(0);
+ 	put_num (moves);
+	return (0);
+}
+
+static int setup_map(char *path, t_game *game)
+{
+	int	lines;
+	char **temp;
+
+	if (!game || !path)
+		return (0);
+	lines = 0;
+	if (!check_path(path))
+		return (0);
+	lines = count_line(path);
+	temp = fill_map(path, lines);
+	if (!is_valid(temp, lines))
+	{
+		free_map(game->map);
+		free_map(temp);
+		return (0);
+	}
+	free_map(temp);
+	game->map = fill_map(path,lines);
+	if (!game->map)
+		return (0);
+	game->c_num = count_c(game->map);
+	return (1);
+}
+
+static int	setup_win(char *path,t_game *game)
+{
+	int	rows;
+	int	cols;
+
+	if (!path || !game)
+		return (0);
+	rows = count_line (path);
+	cols = ft_strlen (game->map[0]) - 1;
+	game->mlx = mlx_init(); // error null check
+	if (!game->mlx)
+	{
+		free_map(game->map);
+		return (0);
+	}
+	game->mlx_win = mlx_new_window(game->mlx, cols * 52, rows * 52, "so_long"); //error null check
+	if (!game->mlx_win)
+	{
+		free(game->mlx);
+		free_map(game->map);
+		return (0);
+	}
+	fill_image(game); // check if fill image returns 0
+	find_player(game->map, &game->player->x_axis, &game->player->y_axis);
+	fill_image_map(game, 52);
+	return (1);
+}
+
+int main(int args, char *argv[])
+{
+	//cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
+	t_textures	textures;
+	t_player	player;
+	t_game	game;
+
+	game.player = &player;
+	game.textures = &textures;
+	if (args != 2)
+	{
+		put_str("Error:\n!valid input");
+		return (0);
+	}
+	game.map = NULL;
+	if (!setup_map(argv[1], &game))
+	{
+		put_str("Error: !valid map\n");
+		return (0);
+	}
+	if (!setup_win(argv[1], &game))
+	{
+		put_str("Error:\nWindow setup failed\n");
+		free_map(game.map);
+		return (1);
+	}
+	//mlx_key_hook(game.mlx_win, handle_key, &game);
+	mlx_hook(game.mlx_win, 2, 1L<<0, handle_key, &game);
+	//mlx_hook(game.mlx_win, 1, 1L<<0, handle_key, &game);
+	mlx_loop_hook(game.mlx, render_next_frame, &game);
+	mlx_loop(game.mlx);
+
+	return (0);
+}
