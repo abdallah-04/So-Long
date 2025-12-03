@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:35:39 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/02 16:05:05 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 11:23:55 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,27 +26,22 @@ void	put_str(char *str)
 
 void put_num(int n)
 {
-    char c;
+	char c;
 
-    if (n >= 10)
-        put_num(n / 10);
-
-    c = (n % 10) + '0';
-    write(1, &c, 1);
-
-    if (n < 10) // print newline only once
-        write(1, "\n", 1);
+	if (n >= 10)
+		put_num(n / 10);
+	c = (n % 10) + '0';
+	write(1, &c, 1);
+	if (n < 10)
+		write(1, "\n", 1);
 }
 
-
-
-
-void free_map(char **map)
+int	free_map(char **map)
 {
 	int	i;
 
 	if (!map || !map[0])
-		return ;
+		return (0);
 	i = 0;
 	while (map[i])
 	{
@@ -54,4 +49,28 @@ void free_map(char **map)
 		i++;
 	}
 	free(map);
+	return (0);
 }
+
+int	destroy_img(t_game *game)
+{
+	mlx_destroy_image(game->mlx, game->textures->collectible);
+	mlx_destroy_image(game->mlx, game->textures->wall);
+	mlx_destroy_image(game->mlx, game->player->image);
+	mlx_destroy_image(game->mlx, game->textures->exit);
+	mlx_destroy_image(game->mlx, game->textures->space1);
+	mlx_destroy_image(game->mlx, game->textures->space2);
+	return (0);
+}
+
+int destroy_win(t_game *game)
+{
+	destroy_img(game);
+	mlx_destroy_window(game->mlx, game->mlx_win);
+	free_map(game->map);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
+	exit(0);
+	return (0);
+}
+

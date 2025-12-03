@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/02 15:52:03 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 10:36:40 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int count_line(char *path);
 void fill_image_map(t_game *game, int size);
 int move_player(t_game *game, int new_x, int new_y);
 int fill_image(t_game *game);
-void    free_map(char **map);
+int free_map(char **map);
 void    put_zero(t_game *game, int i, int j, int size);
 void	put_player(t_game *game, int i, int j, int size);
 void	put_collectible(t_game *game, int i, int j, int size);
@@ -80,5 +80,7 @@ void	put_wall(t_game *game, int i, int j, int size);
 void	put_exit(t_game *game, int i, int j, int size);
 void	put_str(char *str);
 void    put_num(int n);
+int destroy_img(t_game *game);
+int destroy_win(t_game *game);
 
 #endif

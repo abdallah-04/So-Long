@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/02 18:48:39 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 11:22:54 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int fill_image(t_game *game)
 	if (! game)
 		return (0);
 	game->textures->wall = mlx_xpm_file_to_image(game->mlx,
-		"textures/wall3.xpm", &width, &height); // error null check
+		"textures/wall3.xpm", &width, &height);
 	game->textures->space1 = mlx_xpm_file_to_image(game->mlx,
 		"textures/space1.xpm", &width, &height);
 	game->textures->space2 = mlx_xpm_file_to_image(game->mlx,
@@ -101,7 +101,7 @@ int fill_image(t_game *game)
 	if (!game->textures->wall || !game->textures->space1 ||
 		!game->textures->space2 || !game->textures->collectible ||
 		!game->textures->exit || !game->player->image)
-		return (0); // destroy the exisiting images and the window and the init and the map
+		return (0);
 	return (1);
 }
 
