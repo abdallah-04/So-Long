@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 11:22:54 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:15:39 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,7 @@ int fill_image(t_game *game)
 
 	if (! game)
 		return (0);
-	game->textures->wall = mlx_xpm_file_to_image(game->mlx,
-		"textures/wall3.xpm", &width, &height);
+	game->textures->wall = NULL;
 	game->textures->space1 = mlx_xpm_file_to_image(game->mlx,
 		"textures/space1.xpm", &width, &height);
 	game->textures->space2 = mlx_xpm_file_to_image(game->mlx,
@@ -101,7 +100,25 @@ int fill_image(t_game *game)
 	if (!game->textures->wall || !game->textures->space1 ||
 		!game->textures->space2 || !game->textures->collectible ||
 		!game->textures->exit || !game->player->image)
-		return (0);
+		return (free_simag(game));
 	return (1);
 }
+int	free_simag(t_game *game)
+{
+	if (game->textures->wall)
+			mlx_destroy_image(game->mlx, game->textures->wall);
+	if (game->textures->collectible)
+			mlx_destroy_image(game->mlx, game->textures->collectible);
+	if (game->textures->exit)
+		mlx_destroy_image(game->mlx, game->textures->exit);
+	if (game->textures->space1)
+		mlx_destroy_image(game->mlx, game->textures->space1);
+	if (game->textures->space1)
+		mlx_destroy_image(game->mlx, game->textures->space2);
+	if (game->player->image)
+		mlx_destroy_image(game->mlx, game->player->image);
+	destroy_win(game,0, 1);
+	return (0);
+}
+
 

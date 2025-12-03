@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 10:36:40 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:14:36 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	put_exit(t_game *game, int i, int j, int size);
 void	put_str(char *str);
 void    put_num(int n);
 int destroy_img(t_game *game);
-int destroy_win(t_game *game);
+int destroy_win(t_game *game , int flag1, int flag2);
+int	free_simag(t_game *game);
 
 #endif

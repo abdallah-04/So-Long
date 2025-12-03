@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 11:21:03 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:15:21 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	handle_key(int keycode, t_game *game)
 	flag = 0;
 	moves++;
 	if (keycode == KEY_ESC)
-		destroy_win(game);
+		destroy_win(game, 1, 1);
 	else if (keycode == KEY_W)
 		flag = move_player(game, game->player->x_axis - 1,
 				game->player->y_axis);
@@ -47,7 +47,7 @@ static int	handle_key(int keycode, t_game *game)
 		flag = move_player(game, game->player->x_axis,
 				game->player->y_axis + 1);
 	if (flag)
-		destroy_win(game);
+		destroy_win(game, 1, 1);
  	put_num (moves);
 	return (0);
 }
@@ -93,18 +93,18 @@ static int	setup_win(char *path,t_game *game)
 	game->mlx = mlx_init();
 	if (!game->mlx)
 	{
-		destroy_win(game);
+		free_map(game->map);
 		return (0);
 	}
 	game->mlx_win = mlx_new_window(game->mlx, cols * 52, rows * 52, "so_long");
 	if (!game->mlx_win)
 	{
-		destroy_win(game);
+		destroy_win(game, 0, 0);
 		return (0);
 	}
 	 // youuuuuu must check if fill image returns 0
 	if (!fill_image(game))
-		return(destroy_win(game));
+		return(0);
 	find_player(game->map, &game->player->x_axis, &game->player->y_axis);
 	fill_image_map(game, 52);
 	return (1);
@@ -127,6 +127,7 @@ int main(int args, char *argv[])
 	game.map = NULL;
 	if (!setup_map(argv[1], &game))
 	{
+		destroy_win(&game, 0, 0);
 		put_str("Error: !valid map\n");
 		return (0);
 	}

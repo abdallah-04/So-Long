@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:35:39 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 11:23:55 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 15:14:22 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,16 @@ int	destroy_img(t_game *game)
 	return (0);
 }
 
-int destroy_win(t_game *game)
+int destroy_win(t_game *game , int flag1, int flag2)
 {
-	destroy_img(game);
-	mlx_destroy_window(game->mlx, game->mlx_win);
+	 if (flag1)
+	 {
+		destroy_img(game);
+	 }
+	 if (flag2)
+	 {
+		mlx_destroy_window(game->mlx, game->mlx_win);
+	 }
 	free_map(game->map);
 	mlx_destroy_display(game->mlx);
 	free(game->mlx);
