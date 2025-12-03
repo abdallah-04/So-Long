@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 15:15:21 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:14:45 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,7 @@ static int	handle_key(int keycode, t_game *game)
 	int	flag;
 	int static	moves = 0;
 
-	if (!game)
-		return (0);
 	flag = 0;
-	moves++;
 	if (keycode == KEY_ESC)
 		destroy_win(game, 1, 1);
 	else if (keycode == KEY_W)
@@ -46,9 +43,12 @@ static int	handle_key(int keycode, t_game *game)
 	else if (keycode == KEY_D)
 		flag = move_player(game, game->player->x_axis,
 				game->player->y_axis + 1);
-	if (flag)
+	else
+		return (0);
+	if (flag != 2)
+		put_num(&moves);
+	if (flag == 1)
 		destroy_win(game, 1, 1);
- 	put_num (moves);
 	return (0);
 }
 
@@ -73,10 +73,10 @@ static int setup_map(char *path, t_game *game)
 	free_map(temp);
 	game->map = fill_map(path,lines);
 	if (!game->map)
-		{
-			free_map(game->map);
-			return (0);
-		}
+	{
+		free_map(game->map);
+		return (0);
+	}
 	game->c_num = count_c(game->map);
 	return (1);
 }
@@ -102,7 +102,6 @@ static int	setup_win(char *path,t_game *game)
 		destroy_win(game, 0, 0);
 		return (0);
 	}
-	 // youuuuuu must check if fill image returns 0
 	if (!fill_image(game))
 		return(0);
 	find_player(game->map, &game->player->x_axis, &game->player->y_axis);
@@ -113,30 +112,20 @@ static int	setup_win(char *path,t_game *game)
 int main(int args, char *argv[])
 {
 	//cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
-	if (args != 2)
-	{
-		put_str("Error:\n!valid input");
-		return (0);
-	}
 	t_textures	textures;
 	t_player	player;
 	t_game	game;
+
+	if (args != 2)
+		return (put_str("Error:\n!valid input\n"));
 
 	game.player = &player;
 	game.textures = &textures;
 	game.map = NULL;
 	if (!setup_map(argv[1], &game))
-	{
-		destroy_win(&game, 0, 0);
-		put_str("Error: !valid map\n");
-		return (0);
-	}
+		return (put_str("Error:\n!valid map\n"));
 	if (!setup_win(argv[1], &game))
-	{
-		put_str("Error:\nWindow setup failed\n");
-		return (0);
-	}
-	//mlx_key_hook(game.mlx_win, handle_key, &game);
+		return (put_str("Error:\nWindow setup failed\n"));
 	mlx_hook(game.mlx_win, 2, 1L<<0, handle_key, &game);
 	//mlx_hook(game.mlx_win, 1, 1L<<0, handle_key, &game);
 	mlx_loop_hook(game.mlx, render_next_frame, &game);

@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:11:55 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/02 18:30:15 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:19:48 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,59 +138,3 @@ int	is_valid(char **map, int line)
 	}
 	return (1);
 }
-// int main(void)
-// {
-// 	char *str;
-// 	char **map;
-// 	char **temp;
-// 	int line;
-// 	int fd;
-// 	char path[256];
-// 	for (int i = 24; i > 0; i--)
-// 	{
-// 		sprintf(path, "maps/%d.ber", i);
-
-// 		if (!check_path(path))
-// 		{
-// 			printf("error txt -> %d\n", i);
-// 			continue;
-// 		}
-// 		fd = open(path, O_RDONLY);
-// 		if (fd == -1)
-// 		{
-// 			perror("open");
-// 			continue;
-// 		}
-// 		line = 0;
-// 		while ((str = get_next_line(fd)) != NULL)
-// 		{
-// 			line++;
-// 			free(str);
-// 		}
-// 		close(fd);
-// 		map = fill_map(path, line);
-// 		temp = fill_map(path, line);
-// 		for (int v = 0; map[v]; v++)
-// 		{
-// 			printf("%s", map[v]);
-// 		}
-// 		printf("\n");
-// 		if (!is_valid(temp, line))
-// 		{
-// 			printf("\nerror -> %d\n", i);
-// 			printf("--------------------------------\n");
-// 			continue;
-// 		}
-// 		printf("\nnot error -> %d\n", i);
-// 		printf("--------------------------------\n");
-// 		// for (int j = 0; map[j]; j++)
-// 		// {
-// 		// 	printf("%s", map[j]);
-// 		// 	free(map[j]);
-// 		// 	free(temp[j]);
-// 		// }
-// 		free(map);
-// 		free(temp);
-// 	}
-// 	return 0;
-// }

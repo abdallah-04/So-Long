@@ -6,13 +6,13 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 15:15:39 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:20:47 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void fill_image_map(t_game *game, int size)
+void	fill_image_map(t_game *game, int size)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,7 @@ void fill_image_map(t_game *game, int size)
 	}
 }
 
-void swap_chars(char *c1, char *c2)
+void	swap_chars(char *c1, char *c2)
 {
 	char	temp;
 
@@ -50,18 +50,16 @@ void swap_chars(char *c1, char *c2)
 	*c2 = temp;
 }
 
-int move_player(t_game *game, int new_x, int new_y)
+int	move_player(t_game *game, int new_x, int new_y)
 {
-	char temp;
 	int flag;
 	int	static count = 0;
 
 	if(!game->map)
 		return (0);
-	temp = 'E';
 	flag = 0;
 	if (game->map[new_x][new_y] == '1')
-		return (0);
+		return (2);
 	if (game->map[new_x][new_y] == 'C')
 	{
 		count++;
@@ -79,14 +77,15 @@ int move_player(t_game *game, int new_x, int new_y)
 	return (0);
 }
 
-int fill_image(t_game *game)
+int	fill_image(t_game *game)
 {
 	int	width;
 	int	height;
 
 	if (! game)
 		return (0);
-	game->textures->wall = NULL;
+	game->textures->wall = mlx_xpm_file_to_image(game->mlx,
+		"textures/wall3.xpm", &width, &height);
 	game->textures->space1 = mlx_xpm_file_to_image(game->mlx,
 		"textures/space1.xpm", &width, &height);
 	game->textures->space2 = mlx_xpm_file_to_image(game->mlx,
@@ -120,5 +119,3 @@ int	free_simag(t_game *game)
 	destroy_win(game,0, 1);
 	return (0);
 }
-
-

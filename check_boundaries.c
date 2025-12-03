@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:12:07 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/02 15:38:24 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:20:27 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,3 +80,18 @@ int	check_len(char **map)
 	return (1);
 }
 
+int	free_map(char **map)
+{
+	int	i;
+
+	if (!map || !map[0])
+		return (0);
+	i = 0;
+	while (map[i])
+	{
+		free(map[i]);
+		i++;
+	}
+	free(map);
+	return (0);
+}
