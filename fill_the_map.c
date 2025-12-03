@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:40:56 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 16:44:04 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 17:44:57 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,13 @@ char	**fill_map(char *path, int lines)
 	fd = open(path, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	while ((str = get_next_line(fd)) != NULL)//edit ----------------------------------------------
+	while (1)
+	{
+		str = get_next_line(fd);
+		if (str == NULL)
+			break;
 		map[i++] = str;
+	}
 	map[i] = NULL;
 	close(fd);
 	return (map);
@@ -69,10 +74,13 @@ int	count_line(char *path)
 	if (fd == -1)
 		return (0);
 	line = 0;
-	while ((str = get_next_line(fd)) != NULL) //edit ----------------------------------------------
+	while (1)
 	{
+		str = get_next_line(fd);
+		if (str == NULL)
+			break;
 		line++;
-		free(str);
+		free (str);
 	}
 	close(fd);
 	return (line);

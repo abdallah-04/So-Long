@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:14:45 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:03:40 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	handle_key(int keycode, t_game *game)
 	int static	moves = 0;
 
 	flag = 0;
-	if (keycode == KEY_ESC)
+	if (keycode == KEY_ESC || keycode == 17)
 		destroy_win(game, 1, 1);
 	else if (keycode == KEY_W)
 		flag = move_player(game, game->player->x_axis - 1,
@@ -118,7 +118,6 @@ int main(int args, char *argv[])
 
 	if (args != 2)
 		return (put_str("Error:\n!valid input\n"));
-
 	game.player = &player;
 	game.textures = &textures;
 	game.map = NULL;
@@ -127,9 +126,8 @@ int main(int args, char *argv[])
 	if (!setup_win(argv[1], &game))
 		return (put_str("Error:\nWindow setup failed\n"));
 	mlx_hook(game.mlx_win, 2, 1L<<0, handle_key, &game);
-	//mlx_hook(game.mlx_win, 1, 1L<<0, handle_key, &game);
+	mlx_hook(game.mlx_win, 17, 1L<<17, close_win, &game);
 	mlx_loop_hook(game.mlx, render_next_frame, &game);
 	mlx_loop(game.mlx);
-
 	return (0);
 }

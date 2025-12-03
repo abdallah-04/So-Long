@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:12:07 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:20:27 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:03:49 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,11 @@ int	free_map(char **map)
 		i++;
 	}
 	free(map);
+	return (0);
+}
+
+int close_win(t_game *game)
+{
+	destroy_win(game, 1, 1);
 	return (0);
 }
