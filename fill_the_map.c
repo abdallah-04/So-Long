@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:40:56 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:44:57 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:12:56 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,26 +86,3 @@ int	count_line(char *path)
 	return (line);
 }
 
-int	count_c(char **map)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	if (!map || !map[0])
-		return (0);
-	i = 0;
-	count = 0;
-	while (map[i])
-	{
-		j = 0;
-		while (map[i][j])
-		{
-			if (map[i][j] == 'C')
-				count++;
-			j++;
-		}
-		i++;
-	}
-	return (count);
-}

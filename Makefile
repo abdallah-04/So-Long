@@ -6,7 +6,7 @@
 #    By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 17:54:59 by amufleh           #+#    #+#              #
-#    Updated: 2025/12/02 18:49:56 by amufleh          ###   ########.fr        #
+#    Updated: 2025/12/03 18:14:51 by amufleh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ SRC = main.c \
 	check_boundaries.c \
 	fill_the_map.c \
 	put_image.c \
+	tools.c \
+	tools2.c \
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
