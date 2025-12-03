@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 18:03:40 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/03 18:25:13 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ static int	setup_win(char *path,t_game *game)
 
 int main(int args, char *argv[])
 {
-	//cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
 	t_textures	textures;
 	t_player	player;
 	t_game	game;

@@ -6,7 +6,7 @@
 #    By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/10/27 17:54:59 by amufleh           #+#    #+#              #
-#    Updated: 2025/12/03 18:14:51 by amufleh          ###   ########.fr        #
+#    Updated: 2025/12/03 18:25:48 by amufleh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRC = main.c \
 	tools.c \
 	tools2.c \
 
+//cc *.c get_next_line/getnextline.a -lmlx -lXext -lX11
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 OBJ = $(SRC:.c=.o)
