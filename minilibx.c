@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 11:44:45 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 12:40:10 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int	move_player(t_game *game, int new_x, int new_y)
 	}
 	game->player->x_axis = new_x;
 	game->player->y_axis = new_y;
+	render_next_frame(game);
 	return (0);
 }
 

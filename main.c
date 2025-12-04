@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 12:24:38 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 12:41:15 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	main(int args, char *argv[])
 		return (put_str("Error:\nWindow setup failed\n"));
 	mlx_hook(game.mlx_win, 2, 1L << 0, handle_key, &game);
 	mlx_hook(game.mlx_win, 17, 1L << 17, close_win, &game);
-	mlx_loop_hook(game.mlx, render_next_frame, &game);
 	mlx_loop(game.mlx);
 	return (0);
 }
