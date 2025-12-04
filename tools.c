@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:35:39 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 11:08:41 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 13:45:19 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	put_str(char *str)
 	i = 0;
 	while (str[i])
 	{
-		write(1, &str[i], 1);
+		write(2, &str[i], 1);
 		i++;
 	}
 	return (0);
