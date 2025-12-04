@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 18:25:13 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 11:43:55 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static int	render_next_frame(t_game *game)
 
 static int	handle_key(int keycode, t_game *game)
 {
-	int	flag;
-	int static	moves = 0;
+	static int	moves;
+	int			flag;
 
 	flag = 0;
-	if (keycode == KEY_ESC || keycode == 17)
+	if (keycode == KEY_ESC)
 		destroy_win(game, 1, 1);
 	else if (keycode == KEY_W)
 		flag = move_player(game, game->player->x_axis - 1,
@@ -52,10 +52,10 @@ static int	handle_key(int keycode, t_game *game)
 	return (0);
 }
 
-static int setup_map(char *path, t_game *game)
+static int	setup_map(char *path, t_game *game)
 {
-	int	lines;
-	char **temp;
+	int		lines;
+	char	**temp;
 
 	if (!game)
 		return (0);
@@ -71,7 +71,7 @@ static int setup_map(char *path, t_game *game)
 		return (0);
 	}
 	free_map(temp);
-	game->map = fill_map(path,lines);
+	game->map = fill_map(path, lines);
 	if (!game->map)
 	{
 		free_map(game->map);
@@ -81,7 +81,7 @@ static int setup_map(char *path, t_game *game)
 	return (1);
 }
 
-static int	setup_win(char *path,t_game *game)
+static int	setup_win(char *path, t_game *game)
 {
 	int	rows;
 	int	cols;
@@ -103,17 +103,17 @@ static int	setup_win(char *path,t_game *game)
 		return (0);
 	}
 	if (!fill_image(game))
-		return(0);
+		return (0);
 	find_player(game->map, &game->player->x_axis, &game->player->y_axis);
 	fill_image_map(game, 52);
 	return (1);
 }
 
-int main(int args, char *argv[])
+int	main(int args, char *argv[])
 {
 	t_textures	textures;
 	t_player	player;
-	t_game	game;
+	t_game		game;
 
 	if (args != 2)
 		return (put_str("Error:\n!valid input\n"));
@@ -124,8 +124,8 @@ int main(int args, char *argv[])
 		return (put_str("Error:\n!valid map\n"));
 	if (!setup_win(argv[1], &game))
 		return (put_str("Error:\nWindow setup failed\n"));
-	mlx_hook(game.mlx_win, 2, 1L<<0, handle_key, &game);
-	mlx_hook(game.mlx_win, 17, 1L<<17, close_win, &game);
+	mlx_hook(game.mlx_win, 2, 1L << 0, handle_key, &game);
+	mlx_hook(game.mlx_win, 17, 1L << 17, close_win, &game);
 	mlx_loop_hook(game.mlx, render_next_frame, &game);
 	mlx_loop(game.mlx);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:35:39 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:19:27 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 11:08:41 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	put_num(int *n)
 
 void	print_num(int n)
 {
-	char c;
+	char	c;
 
 	if (n >= 10)
 		print_num(n / 10);
@@ -53,7 +53,7 @@ int	destroy_img(t_game *game)
 	return (0);
 }
 
-int destroy_win(t_game *game , int flag1, int flag2)
+int	destroy_win(t_game *game, int flag1, int flag2)
 {
 	if (flag1)
 	{
@@ -69,4 +69,3 @@ int destroy_win(t_game *game , int flag1, int flag2)
 	exit(0);
 	return (0);
 }
-
