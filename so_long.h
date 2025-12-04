@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 11:36:45 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 12:30:23 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int		destroy_img(t_game *game);
 int		destroy_win(t_game *game, int flag1, int flag2);
 int		free_simag(t_game *game);
 int		close_win(t_game *game);
+int		render_next_frame(t_game *game);
+int		handle_key(int keycode, t_game *game);
+int		setup_map(char *path, t_game *game);
+int		setup_win(char *path, t_game *game);
 char	**fill_map(char *path, int lines);
 void	find_player(char **map, int *p_x, int *p_y);
 void	flood_fill(char **map, int x, int y);

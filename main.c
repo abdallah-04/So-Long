@@ -6,15 +6,13 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 11:43:55 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/04 12:24:38 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include <stdlib.h>
-#include <X11/keysym.h>
 
-static int	render_next_frame(t_game *game)
+int	render_next_frame(t_game *game)
 {
 	if (!game)
 		return (0);
@@ -23,7 +21,7 @@ static int	render_next_frame(t_game *game)
 	return (0);
 }
 
-static int	handle_key(int keycode, t_game *game)
+int	handle_key(int keycode, t_game *game)
 {
 	static int	moves;
 	int			flag;
@@ -52,7 +50,7 @@ static int	handle_key(int keycode, t_game *game)
 	return (0);
 }
 
-static int	setup_map(char *path, t_game *game)
+int	setup_map(char *path, t_game *game)
 {
 	int		lines;
 	char	**temp;
@@ -81,7 +79,7 @@ static int	setup_map(char *path, t_game *game)
 	return (1);
 }
 
-static int	setup_win(char *path, t_game *game)
+int	setup_win(char *path, t_game *game)
 {
 	int	rows;
 	int	cols;
