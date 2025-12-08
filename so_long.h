@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 12:30:23 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/08 09:54:14 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_game
 
 int		is_cep(char **map);
 int		is_one_cep(char **map);
-int		check_topbutton(char **map, int line);
+int		check_topbottom(char **map, int line);
 int		check_leftright(char **map, int line);
 int		check_len(char **map);
 int		is_valid(char **map, int line);

@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 12:41:15 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/08 10:04:44 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	setup_win(char *path, t_game *game)
 		free_map(game->map);
 		return (0);
 	}
-	game->mlx_win = mlx_new_window(game->mlx, cols * 52, rows * 52, "so_long");
+	game->mlx_win = mlx_new_window(game->mlx, cols * 52, rows * 52, "chess V2");
 	if (!game->mlx_win)
 	{
 		destroy_win(game, 0, 0);

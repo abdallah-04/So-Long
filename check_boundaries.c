@@ -6,13 +6,13 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:12:07 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 10:57:51 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/08 09:53:52 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	check_topbutton(char **map, int line)
+int	check_topbottom(char **map, int line)
 {
 	int	i;
 	int	len;

@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:11:55 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:19:48 by amufleh          ###   ########.fr       */
+/*   Updated: 2025/12/08 09:54:01 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	is_valid(char **map, int line)
 	if (!map || !map[0])
 		return (0);
 	i = 0;
-	if (!map || !is_one_cep(map) || !check_topbutton(map, line)
+	if (!map || !is_one_cep(map) || !check_topbottom(map, line)
 		|| !check_leftright(map, line) || !check_len(map))
 		return (0);
 	find_player(map, &p_x, &p_y);
