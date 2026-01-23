@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:35:39 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/07 16:53:23 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:25 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,4 @@ int	destroy_win(t_game *game, int flag1, int flag2)
 	exit(0);
 	return (0);
 }
+//so_long

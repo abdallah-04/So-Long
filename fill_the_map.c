@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:40:56 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 11:09:46 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:43 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,3 +83,4 @@ int	count_line(char *path)
 	close(fd);
 	return (line);
 }
+//so_long

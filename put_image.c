@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 15:15:17 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/03 17:20:52 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:33 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,3 +45,4 @@ void	put_exit(t_game *game, int i, int j, int size)
 	mlx_put_image_to_window(game->mlx, game->mlx_win,
 		game->textures->exit, j * size, i * size);
 }
+//so_long

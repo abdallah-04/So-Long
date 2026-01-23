@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 18:16:25 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/08 09:54:14 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:30 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,4 @@ void	put_wall(t_game *game, int i, int j, int size);
 void	put_exit(t_game *game, int i, int j, int size);
 void	fill_image_map(t_game *game, int size);
 #endif
+//so_long

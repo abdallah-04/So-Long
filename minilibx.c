@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 15:03:26 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/04 12:40:10 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:36 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,3 +110,4 @@ int	free_simag(t_game *game)
 	destroy_win(game, 0, 1);
 	return (0);
 }
+//so_long

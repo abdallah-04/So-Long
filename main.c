@@ -6,7 +6,7 @@
 /*   By: amufleh <amufleh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/05 11:06:23 by amufleh           #+#    #+#             */
-/*   Updated: 2025/12/08 10:04:44 by amufleh          ###   ########.fr       */
+/*   Updated: 2026/01/23 15:06:40 by amufleh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,3 +127,4 @@ int	main(int args, char *argv[])
 	mlx_loop(game.mlx);
 	return (0);
 }
+//so_long
